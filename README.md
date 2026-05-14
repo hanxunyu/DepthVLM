@@ -1,11 +1,6 @@
-<p align="center">
-  <img src="assets/logo.png" width="120" alt="DepthVLM Logo">
-</p>
-
-<h1 align="center" style="display: flex; align-items: flex-start; justify-content: center; gap: 12px;">
-  <strong>
-    Unlocking Dense Metric Depth Estimation in VLMs
-  </strong>
+<h1 align="center">
+  <img src="assets/logo.png" width="60" alt="DepthVLM Logo" style="vertical-align: middle;">
+  &nbsp;<strong>Unlocking Dense Metric Depth Estimation in VLMs</strong>
 </h1>
 
 <p align="center">
