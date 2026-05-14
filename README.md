@@ -1,7 +1,9 @@
-<h1 align="center">
-  <img src="assets/logo.png" width="60" alt="DepthVLM Logo" style="vertical-align: middle;">
-  &nbsp;<strong>Unlocking Dense Metric Depth Estimation in VLMs</strong>
-</h1>
+<div align="center">
+  <table border="0" cellspacing="0" cellpadding="0"><tr>
+    <td valign="middle"><img src="assets/logo.png" width="60" alt="DepthVLM Logo"></td>
+    <td valign="middle">&nbsp;<h1 style="margin:0;">Unlocking Dense Metric Depth Estimation in VLMs</h1></td>
+  </tr></table>
+</div>
 
 <p align="center">
     <a href="https://hanxunyu.github.io/" target="_blank">Hanxun Yu<sup>1,2*</sup></a>,
