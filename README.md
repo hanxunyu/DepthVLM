@@ -40,6 +40,9 @@ https://github.com/user-attachments/assets/66797dad-246b-47f6-be91-9f952fdd8b1a
 <div align="left">
 <img src="assets/teaser1.png" width="99%" alt="model">
 </div>
+<div align="left">
+<img src="assets/teaser2.png" width="99%" alt="model">
+</div>
 
 **DepthVLM** serves as a unified foundation model for both low-level dense geometry prediction and high-level multimodal understanding, while achieving substantially faster inference compared with existing VLM-based approaches such as DepthLM and Youtu-VL.
 
@@ -54,32 +57,22 @@ https://github.com/user-attachments/assets/66797dad-246b-47f6-be91-9f952fdd8b1a
 ## 🛠️ Installation
 
 ```
-git clone https://github.com/hanxunyu/Stream3D-VLM.git
-cd Stream3D-VLM
+git clone https://github.com/hanxunyu/DepthVLM.git
+cd DepthVLM
 
-conda create -n stream3d-llm python=3.10 -y
-conda activate stream3d-llm
+conda create -n depthvlm python=3.10 -y
+conda activate depthvlm
 pip install -r requirements.txt
-pip install flash-attn==2.7.4.post1 --no-build-isolation
-export PYTHONPATH=$(pwd)/src:$PYTHONPATH
+pip install flash-attn==2.6.3 --no-build-isolation
 ```
-## 📊 Dataset and Benchmark
-<div align="left">
-<img src="assets/data_generation.png" width="99%" alt="data_generation">
-</div>
-
-**Illustration of our data generation pipeline.** Guided by a comprehensive task taxonomy spanning five cognitive competencies and three temporal interaction modes, the pipeline leverages detailed metadata from RGB-D video streams and a hybrid generation strategy to construct a large-scale spatio-temporal 3D QA dataset and the Stream3D-Bench for evaluating online 3D spatial understanding.
-
-<!-- We provide **the training dataset** and **Stream3D-Bench** ([XXXX](https://huggingface.co/yuxinhk/N3D-VLM)) in Hugging Face 🤗.  -->
+## 📊 Data Preparation
+- Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [prepare_data.sh](./prepare_data.sh) for detailed dataset-specific preparation instructions.
+- We provide example images from ScanNetpp in the [demo_images](./demo_images) folder.
+- We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM) on Hugging Face 🤗.
 
 ## 📦️ Pretrained models
-We provide the pretrained models [🤗Stream3D-VLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) and [🤗Stream3D-VLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) in Hugging Face. 
+We provide the pretrained models [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) and [DepthVLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) in Hugging Face 🤗. 
 
-<!-- ## 🚀 Training
-```
-# train 
-python train.py
-``` -->
 
 ## 🤖 Inference Examples 
 Try our example inference script. 
@@ -88,43 +81,37 @@ Try our example inference script.
 bash src/qwen_vl/eval/model_inference.sh
 ```
 
-### Demo 1-Forward Response (Monitoring)
+
+## 🚀 Training
+```
+# train 
+python train.py
+```
+DepthVLM-8B is trained for four days on 80 NVIDIA H20 GPUs (96GB), while DepthVLM-4B is trained for two days using the same computational resources.
 
 
+## 🔬 Results
 
-https://github.com/user-attachments/assets/a3af0dab-6c39-48b9-a43d-41596e4ceb57
+### Comparison with VLMs
+<div align="left">
+<img src="assets/table1.png" width="99%" alt="model">
+</div>
 
+### Comparison with pure vision models
+<div align="left">
+<img src="assets/table2.png" width="99%" alt="model">
+</div>
 
-
-
-
-### Demo 2-Realtime Perception (Observation)
-
-
-
-
-https://github.com/user-attachments/assets/04a945b7-3c8d-4305-bd9a-0e7ca5fac45c
-
-
-
-
-### Demo 3-Backward Tracing (Memory)
-
-
-
-
-https://github.com/user-attachments/assets/091e1687-7e35-42f7-83c9-a53a378ccda3
-
-
-
-
-
+### Visualization Comparison
+<div align="left">
+<img src="assets/visualization.png" width="99%" alt="model">
+</div>
 
 ## 👏 Acknowledgements
 We are grateful for the open-source contributions of other projects:
-- [StreamVGGT](https://github.com/wzzheng/streamvggt)
-- [VG-LLM](https://github.com/LaVi-Lab/VG-LLM)
-- [VLM-3R](https://github.com/VITA-Group/VLM-3R)
+- [DepthLM](https://github.com/facebookresearch/DepthLM_Official)
+- [Youtu-VL](https://github.com/TencentCloudADP/youtu-vl)
+- [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL)
 
 
 ## 🖊️ Citation
