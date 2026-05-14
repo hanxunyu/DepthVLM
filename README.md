@@ -7,12 +7,13 @@
     <a href="https://hanxunyu.github.io/" target="_blank">Hanxun Yu<sup>1,2*</sup></a>,
     <a href="https://github.com/Select-ing" target="_blank">Xuan Qu<sup>1,2*</sup></a>,
     <a href="https://w-ted.github.io/" target="_blank">Yuxin Wang<sup>2,3</sup></a>,
-    <a href="https://person.zju.edu.cn/jkzhu" target="_blank">Jianke Zhu<sup>1</sup></a>,
+    <a href="https://person.zju.edu.cn/jkzhu" target="_blank">Jianke Zhu<sup>1,4</sup></a>,
     <a href="https://www.kelei.site/" target="_blank">Lei Ke<sup>2</sup></a>
     <br>
     <sup>1</sup>ZJU,
     <sup>2</sup>Tencent Hunyuan LLM,
     <sup>3</sup>HKUST
+    <sup>4</sup>SLAI
 </p>
 
 <div align="center">
@@ -77,19 +78,30 @@ We provide the pretrained models [DepthVLM-4B](https://huggingface.co/JonnyYu828
 
 
 ## 🤖 Inference Examples 
+
 Try our example inference script. 
 ```
-# inference 
-bash src/qwen_vl/eval/model_inference.sh
+# visualization examples
+bash visualize_demo.sh
+```
+
+Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM).
+```
+bash eval/eval.sh
 ```
 
 
 ## 🚀 Training
+Stage1: depth head-only training
 ```
-# train 
-python train.py
+# stage-1 
+bash train/train-stage1.sh
 ```
-DepthVLM-8B is trained for four days on 80 NVIDIA H20 GPUs (96GB), while DepthVLM-4B is trained for two days using the same computational resources.
+Stage2: end-to-end fine-tuning
+```
+bash train/train-stage2.sh
+```
+[DepthVLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for four days on 80 NVIDIA H20 GPUs (96GB), while [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for two days using the same computational resources.
 
 
 ## 🔬 Results
