@@ -62,7 +62,7 @@
 
 ## 📰 News
 - [2026-05-20] 🔥 We release [DepthVLM-Bench](xxxx) in Hugging Face 🤗.
-- [2026-05-20] 🔥 We release the checkpoints of [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) and [DepthVLM-8B](https://huggingface.co/JonnyYu828/DepthVLM-8B) in Hugging Face 🤗.
+- [2026-05-20] 🔥 We release the checkpoint of [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗.
 - [2026-05-20] 🔥 We release the training and inference code.
 - [2026-05-20] 🔥 We release the [paper](xxxxx) of DepthVLM.
 
@@ -84,7 +84,7 @@ pip install flash-attn==2.6.3 --no-build-isolation
 - We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM) on Hugging Face 🤗.
 
 ## 📦️ Pretrained models
-We provide the pretrained models [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) and [DepthVLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) in Hugging Face 🤗. 
+We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) in Hugging Face 🤗. 
 
 
 ## 🤖 Inference Examples 
@@ -111,7 +111,7 @@ Stage2: end-to-end fine-tuning
 ```
 bash train/train-stage2.sh
 ```
-[DepthVLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for four days on 80 NVIDIA H20 GPUs (96GB), while [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for two days using the same computational resources.
+[DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for two days on 80 NVIDIA H20 GPUs (96GB).
 
 
 ## 🔬 Experiment Results
