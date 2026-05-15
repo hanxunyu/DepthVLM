@@ -79,8 +79,8 @@ pip install -r requirements.txt
 pip install flash-attn==2.6.3 --no-build-isolation
 ```
 ## 📊 Data Preparation
-- Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [data_process.md](data_process/data_process.md) for detailed dataset-specific preparation instructions.
-- We provide example images from ScanNetPP in the [demo_images](./demo_images) folder.
+- Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [data_process.md](./data_process/data_process.md) for detailed dataset-specific preparation instructions.
+- We provide example images from ScanNet++ in the [demo_images](./demo_images) folder.
 - We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM) on Hugging Face 🤗.
 
 ## 📦️ Pretrained models
