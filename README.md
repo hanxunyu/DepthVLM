@@ -114,7 +114,7 @@ bash train/train-stage2.sh
 [DepthVLM-8B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for four days on 80 NVIDIA H20 GPUs (96GB), while [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for two days using the same computational resources.
 
 
-## 🔬 Results
+## 🔬 Experiment Results
 
 ### Comparison with VLMs
 <div align="left">
@@ -129,6 +129,18 @@ bash train/train-stage2.sh
 ### Visualization Comparison
 <div align="left">
 <img src="assets/visualization.png" width="99%" alt="model">
+</div>
+<br>
+<div align="left">
+<img src="assets/example1.gif" width="99%" alt="example 1">
+</div>
+<br>
+<div align="left">
+<img src="assets/example2.gif" width="99%" alt="example 2">
+</div>
+<br>
+<div align="left">
+<img src="assets/example3.gif" width="99%" alt="example 3">
 </div>
 
 ## 👏 Acknowledgements
