@@ -101,7 +101,7 @@ bash eval/eval.sh
 ```
 
 
-## 🚀 Training
+## 🚀 Two-Stage Training
 Stage1: depth head-only training
 ```
 # stage-1 
