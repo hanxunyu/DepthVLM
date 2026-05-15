@@ -47,14 +47,6 @@ class DPTDepthHead(nn.Module):
         # LayerNorm: normalize input features, shape unchanged: (B, N, dim_in) -> (B, N, dim_in)
         self.norm = nn.LayerNorm(dim_in)
 
-        # ===== Projection layers =====
-        # Project each layer's features from dim_in (e.g., 2560) to out_channels[i]
-        # Input:  (B, dim_in, patch_h, patch_w)
-        # Output: (B, out_channels[i], patch_h, patch_w)
-        # Layer 0: (B, 2560, H, W) -> (B, 256,  H, W)
-        # Layer 1: (B, 2560, H, W) -> (B, 512,  H, W)
-        # Layer 2: (B, 2560, H, W) -> (B, 1024, H, W)
-        # Layer 3: (B, 2560, H, W) -> (B, 1024, H, W)
         self.projects = nn.ModuleList(
             [
                 nn.Conv2d(
@@ -67,16 +59,6 @@ class DPTDepthHead(nn.Module):
                 for oc in out_channels
             ]
         )
-
-        # ===== Resize layers: turn the 4 same-resolution token grids into a multi-scale pyramid =====
-        # All 4 input layers have spatial size (patch_h, patch_w), i.e. the ViT
-        # token grid size (e.g., 45x60). With patch_size=32, token grid = 1/32 of
-        # the original image. Build a multi-scale pyramid via upsampling, with
-        # each layer differing by a factor of 2:
-        #   Layer 0 (shallow, 256ch):  ConvTranspose ^8x  -> (8H, 8W) = 1/4  of original (360x480)
-        #   Layer 1 (mid,     512ch):  ConvTranspose ^4x  -> (4H, 4W) = 1/8  of original (180x240)
-        #   Layer 2 (deep,    1024ch): ConvTranspose ^2x  -> (2H, 2W) = 1/16 of original (90x120)
-        #   Layer 3 (LLM,     1024ch): Identity unchanged -> (H,  W)  = 1/32 of original (45x60)
         self.resize_layers = nn.ModuleList(
             [
                 # Layer 0: ^8x upsample
@@ -108,26 +90,13 @@ class DPTDepthHead(nn.Module):
             ]
         )
 
-        # ===== Scratch layers: 3x3 Conv to unify all layers to `features` channels =====
-        # The pyramid's 4 layers have channel counts [256, 512, 1024, 1024];
-        # they need to be unified to features=256 for additive fusion.
-        # Layer 0: (B, 256,  8H, 8W) -> (B, 256, 8H, 8W)   channels unchanged
-        # Layer 1: (B, 512,  4H, 4W) -> (B, 256, 4H, 4W)   channels halved
-        # Layer 2: (B, 1024, 2H, 2W) -> (B, 256, 2H, 2W)   channels reduced 4x
-        # Layer 3: (B, 1024,  H,  W) -> (B, 256,  H,  W)   channels reduced 4x
         self.scratch = _make_scratch(out_channels, features)
 
-        # ===== RefineNet fusion blocks: bottom-up progressive fusion =====
-        # Fusion order: layer4 -> +layer3 -> +layer2 -> +layer1
-        # Each step upsamples x2 to the resolution of the next (shallower) layer.
         self.scratch.refinenet1 = _make_fusion_block(features)       # final output stage, fuses layer1
         self.scratch.refinenet2 = _make_fusion_block(features)       # fuses layer2
         self.scratch.refinenet3 = _make_fusion_block(features)       # fuses layer3
         self.scratch.refinenet4 = _make_fusion_block(features, has_residual=False)  # starting stage, only layer4, no skip
 
-        # ===== Output Head: bilinear interpolation to full resolution =====
-        # RefineNet output: (B, 256, 16H, 16W) = 1/2 of original (720x960)
-        # Use bilinear interpolation to full resolution (aligned with reference VGGT code).
         head_features_1 = features    # 256
         head_features_2 = 32
 

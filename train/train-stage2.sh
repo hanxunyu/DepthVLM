@@ -1,17 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+cd "${PROJECT_ROOT}"
+export PYTHONPATH="${PROJECT_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+
 ############################
 # Multi-node distributed training arguments
 ############################
 
 # Usage:
-#   Single node:  bash train-stage2.sh
-#   Multi node:   bash train-stage2.sh <NNODES> <NPROC_PER_NODE> <MASTER_ADDR> <MASTER_PORT> <NODE_RANK>
+#   Single node:  bash train/train-stage2.sh
+#   Multi node:   bash train/train-stage2.sh <NNODES> <NPROC_PER_NODE> <MASTER_ADDR> <MASTER_PORT> <NODE_RANK>
 #
 # Example: 2 nodes, 8 GPUs per node
-#   export RUN_TIMESTAMP=20260423_1445
-#   Node 0: RUN_TIMESTAMP=$RUN_TIMESTAMP bash train-stage2.sh 10 8 29.111.45.100 29500 0
+#   export RUN_TIMESTAMP=20260515_1445
+#   Node 0: RUN_TIMESTAMP=$RUN_TIMESTAMP bash train/train-stage2.sh <NNODES> <NPROC_PER_NODE> <MASTER_ADDR> <MASTER_PORT> <NODE_RANK>
 
 NNODES=${1:-1}
 NPROC_PER_NODE=${2:-8}
@@ -99,10 +104,10 @@ echo "[train] TOTAL_GPUS=$TOTAL_GPUS  GLOBAL_STEP_BATCH=$GLOBAL_STEP_BATCH  GRAD
 ############################
 # Model & output
 ############################
-# TODO: replace with the stage 1a checkpoint path
-model_path=outputs/DepthVLM-8b-stage1_${TIMESTAMP}/
+# TODO: replace with the stage 1 checkpoint path
+model_path=outputs/DepthVLM-4b-stage1_${TIMESTAMP}/
 TIMESTAMP=${RUN_TIMESTAMP:-$(date +"%Y%m%d_%H%M%S")}
-output_path=outputs/DepthVLM-8b-stage2_${TIMESTAMP}/
+output_path=outputs/DepthVLM-4b-stage2_${TIMESTAMP}/
 echo "[output] ${output_path}"
 
 ############################
@@ -118,12 +123,13 @@ build_train_args
 ############################
 # Launch training
 ############################
-torchrun --nnodes=$NNODES \
+python -m torch.distributed.run \
+    --nnodes=$NNODES \
     --nproc_per_node=$NPROC_PER_NODE \
     --master_addr=$MASTER_ADDR \
     --master_port=$MASTER_PORT \
     --node_rank=$NODE_RANK \
-    train.py \
+    train/train.py \
 --model_name_or_path $model_path \
 --image_folder "$IMAGE_FOLDER" \
 --dataset_name "$DATASET_NAME" \

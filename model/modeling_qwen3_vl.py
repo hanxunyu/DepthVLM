@@ -1320,13 +1320,6 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
         self.model = Qwen3VLModel(config)
         self.lm_head = nn.Linear(config.text_config.hidden_size, config.text_config.vocab_size, bias=False)
         
-        # ===== Depth Head =====
-        # By default, use the DPT-based multi-scale feature fusion depth prediction head.
-        # config.depth_head_type can switch to 'mlp' (ablation baseline).
-        # Priority: env var DEPTHLM_DEPTH_HEAD_TYPE > config.depth_head_type > default 'dpt'.
-        # The env var lets shell training scripts switch ablation without modifying Python code.
-        # Both heads share an identical interface: they take 4 layers of features
-        # (3 ViT DeepStack layers + 1 LLM last hidden states layer) and output a pixel-level depth map.
         import os as _os_for_depth
         depth_head_type = _os_for_depth.environ.get(
             "DEPTHLM_DEPTH_HEAD_TYPE",
@@ -1335,11 +1328,10 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
         # Write the resolved type back to config so save/load stays consistent
         config.depth_head_type = depth_head_type
         if depth_head_type == "mlp":
-            # Ablation: two-layer MLP baseline (no multi-scale fusion)
-            from qwen3_vl.mlp_depth_head import MLPDepthHead
+            from .mlp_depth_head import MLPDepthHead
             effective_patch = (
                 config.vision_config.patch_size * config.vision_config.spatial_merge_size
-            )  # 16 * 2 = 32 for Qwen3-VL
+            ) 
             mlp_hidden = int(_os_for_depth.environ.get(
                 "DEPTHLM_DEPTH_HEAD_MLP_HIDDEN",
                 getattr(config, "depth_head_mlp_hidden", 1024),
@@ -1357,7 +1349,7 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
                 feature_mode=feature_mode,
             )
         else:
-            from qwen3_vl.dpt_depth_head import DPTDepthHead
+            from .dpt_depth_head import DPTDepthHead
             self.depth_head = DPTDepthHead(
                 dim_in=config.text_config.hidden_size,  # 2560 for Qwen3-VL-4B
                 features=256,
@@ -1468,9 +1460,6 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
             )
 
         # ===== Step 3: DPT Depth Head — pixel-level depth prediction =====
-        # Run the DPT Head only during training (when pixel_depth_labels is provided)
-        # or when depth prediction is explicitly required.
-        # Skip during generate mode (past_key_values not None means token-by-token decoding).
         depth_loss = None
         depth_pred_list = None
 
@@ -1568,8 +1557,8 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
 
         # ===== Step 4: combine losses =====
         # depth_loss_weight controls the weight of the depth loss.
-        # stage 1a: depth_loss only (weight has no effect)
-        # stage 1b: total_loss = lm_loss + depth_loss_weight * depth_loss
+        # stage 1: depth_loss only (weight has no effect)
+        # stage 2: total_loss = lm_loss + depth_loss_weight * depth_loss
         depth_loss_weight = getattr(self.config, "depth_loss_weight", 1.0)
         
         total_loss = None

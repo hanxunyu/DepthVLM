@@ -19,7 +19,7 @@ import trl
 from qwen_vl_utils import process_vision_info
 
 from torch.utils.tensorboard import SummaryWriter
-from qwen3_vl import Qwen3VLForConditionalGeneration
+from model import Qwen3VLForConditionalGeneration
 
 from transformers import (
     AutoProcessor,

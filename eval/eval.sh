@@ -1,15 +1,22 @@
 #!/bin/bash
 
+# Always run from the project root and make local packages (model/, utils/, ...)
+# importable regardless of where this script is invoked from.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+cd "${PROJECT_ROOT}"
+export PYTHONPATH="${PROJECT_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
+
 # ========== Configuration ==========
 
-model_path=JonnyYu828/DepthVLM-8B
+model_path=JonnyYu828/DepthVLM-4B
 
 # Load dataset path configuration
 source configs/eval_datasets.conf
 
 # ===== Datasets to evaluate (space-separated) =====
 # Names must match the variable prefix (uppercase) in eval_datasets.conf
-EVAL_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES ETH3D SCANNETPP SUNRGBD IBIMS1 NYUV2"
+EVAL_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP ETH3D SUNRGBD IBIMS1 NYUV2"
 
 
 # GENERATE_TEXT=false # Stage 1a -> false
@@ -124,7 +131,7 @@ for ds in ${EVAL_DATASETS}; do
     pids=()
     for shard_id in $(seq 0 $((NUM_GPUS - 1))); do
         GPU_ID=${GPU_LIST[$shard_id]}
-        CUDA_VISIBLE_DEVICES=${GPU_ID} python -u eval-debug.py \
+        CUDA_VISIBLE_DEVICES=${GPU_ID} python -u eval/eval.py \
             --model_path $model_path \
             --image_folder "$image_folder" \
             --json_path "$json_path" \
@@ -158,7 +165,7 @@ for ds in ${EVAL_DATASETS}; do
 
     # Merge results
     echo "Merging results for ${dataset_name}..."
-    merge_output=$(python merge_eval_results.py \
+    merge_output=$(python eval/merge_eval_results.py \
         --result_dir "${OUTPUT_DIR}" \
         --num_shards $NUM_GPUS 2>&1)
     echo "${merge_output}"

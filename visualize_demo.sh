@@ -1,13 +1,22 @@
 #!/bin/bash
 # Run DepthVLM on images in demo_images/ and save:
-#   - predicted depth maps (.npy)
-#   - colored point clouds (.ply, camera frame)
+#   - depth maps  (left: GT | right: predicted, side-by-side colored PNG)
+#   - point clouds (.ply, camera frame, RGB-colored)
 set -e
 
-MODEL_PATH=JonnyYu828/DepthVLM-8B
-IMAGE_DIR=demo_images/
-OUTPUT_DIR=demo_outputs/
+# Always run from the project root and make local packages importable
+# regardless of where this script is invoked from.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="${SCRIPT_DIR}"
+cd "${PROJECT_ROOT}"
+export PYTHONPATH="${PROJECT_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
 
+# ========== Configuration ==========
+MODEL_PATH=JonnyYu828/DepthVLM-4B   # HuggingFace repo or a local checkpoint dir
+IMAGE_DIR=demo_images               # folder with input RGBs + a .jsonl annotation file
+OUTPUT_DIR=demo_outputs
+
+# ========== GPU selection ==========
 GPUS="0"
 while [[ $# -gt 0 ]]; do
     case $1 in

@@ -21,7 +21,7 @@ from PIL import Image
 from tqdm import tqdm
 from transformers import AutoProcessor
 
-from qwen3_vl import Qwen3VLForConditionalGeneration
+from model import Qwen3VLForConditionalGeneration
 from qwen_vl_utils import process_vision_info
 
 DEFAULT_PROMPT = (
