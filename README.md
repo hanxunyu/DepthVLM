@@ -80,7 +80,7 @@ pip install flash-attn==2.6.3 --no-build-isolation
 ```
 ## 📊 Data Preparation
 - Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [data_process.md](./data_process/data_process.md) for detailed dataset-specific preparation instructions.
-- We provide example images from ScanNet++ in the [demo_images](./demo_images) folder.
+- We provide visualization examples from ScanNet++ in the [examples](./examples) folder.
 - We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM) on Hugging Face 🤗.
 
 ## 📦️ Pretrained models
@@ -92,7 +92,7 @@ We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/
 Run our example inference script to generate the predicted depth maps and 3D point clouds.
 ```
 # visualization examples
-bash visualize_demo.sh
+bash examples/visualize_examples.sh
 ```
 
 Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM).
