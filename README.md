@@ -18,12 +18,12 @@
 
 <div align="center">
     <a href='https://arxiv.org/abs/2512.16561' target="_blank"><img src='https://img.shields.io/badge/arXiv-XXXX-b31b1b?logo=arxiv&logoColor=red'></a>  
-    <a href='' target="_blank"><img src='https://img.shields.io/badge/Project-Home%20Page-Green?logo=safari&logoColor=white'></a>  
-    <a href='' target="_blank">
-        <img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Benchmark-blue'>
-    </a>
-    <a href='' target="_blank">
+    <a href='https://depthvlm.github.io/' target="_blank"><img src='https://img.shields.io/badge/Project-Home%20Page-Green?logo=safari&logoColor=white'></a>  
+    <a href='https://huggingface.co/JonnyYu828/DepthVLM-4B' target="_blank">
         <img src='https://img.shields.io/badge/%F0%9F%93%A6%EF%B8%8F%20Hugging%20Face-Models-orange'>
+    </a>
+    <a href='https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench' target="_blank">
+        <img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Benchmark-blue'>
     </a>
 </div>
 
@@ -89,7 +89,7 @@ We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/
 
 ## 🤖 Inference Examples 
 
-Try our example inference script. 
+Run our example inference script to generate the predicted depth maps and 3D point clouds.
 ```
 # visualization examples
 bash visualize_demo.sh
