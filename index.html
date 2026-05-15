@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepthVLM: Project Page</title>
+    
+    <!-- 1. 引入 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- 依赖库 -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ========================================= */
+        /* GLOBAL / SHARED STYLES                    */
+        /* ========================================= */
+        html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+        :root {
+            --primary-text: #1f2937;
+            --secondary-text: #4b5563;
+            --bg-page: #ffffff;
+            --success-bg: #f0fdf4;
+            --success-border: #86efac;
+            --success-text: #15803d;
+            --fail-bg: #fff1f2;
+            --fail-border: #fecaca;
+            --fail-text: #b91c1c;
+            --warn-bg: #fff1f2;
+            --warn-border: #fecaca;
+            --warn-text: #b91c1c;
+            --accent-blue: #2563eb;
+            
+            /* Grounding Colors */
+            --g-gt-color: #22c55e;   /* Green */
+            --g-ours-color: #ef4444; /* Red */
+            --g-spatial-color: #3b82f6; /* Blue */
+            --g-qwen-color: #111827; /* Black */
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-page); color: var(--primary-text);
+            margin: 0; padding: 0; line-height: 1.4; -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
+        .global-section-title {
+            text-align: center; font-size: 1.8rem; font-weight: 800;
+            margin: 50px 0 30px; color: #111827; letter-spacing: -0.02em;
+        }
+        .sub-section-title {
+            text-align: left;
+            font-size: 1.4rem;           /* 比主标题 1.8rem 稍小 */
+            font-weight: 700;            /* 主标题是 800，这里用 700 保持可读但不抢眼 */
+            margin-bottom: 15px;         /* 与你原内联样式一致 */
+            /* color: #111827; */
+            /* color: #1f2937; */
+            color: #374151;
+            letter-spacing: -0.015em;    /* 略微调整，保持现代感 */
+        }
+    
+        /* NAVBAR & HEADER */
+        #module-navbar { position: sticky; top: 0; z-index: 999; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 8px 0; }
+        #module-navbar .nav-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        #module-navbar .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111; font-weight: 700; font-size: 1.1rem; }
+        #module-navbar .menu-section { background: #f3f4f6; padding: 3px; border-radius: 99px; display: flex; gap: 2px; }
+        #module-navbar .nav-link { text-decoration: none; color: #6b7280; font-weight: 600; font-size: 0.85rem; padding: 6px 14px; border-radius: 99px; transition: all 0.2s ease; }
+        #module-navbar .nav-link:hover { color: #111; background: rgba(0,0,0,0.03); }
+        #module-navbar .nav-link.active { background: #fff; color: #000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        #module-navbar .left-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;   /* 控制两个logo间距 */
+            flex-shrink: 0;
+        }
+        #module-navbar .logo-img {
+            height: 35px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+        #module-navbar .logo-section {
+            flex-shrink: 0;   /* 不允许被压缩 */
+        }
+        #module-header { text-align: center; padding: 40px 20px 20px; }
+        #module-header .proj-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            color: #111;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        #module-header .proj-title .title-logo {
+            height: 1.2em;   /* 与标题字号对齐 */
+            width: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        #module-header .author-list { font-size: 1.1rem; margin-bottom: 10px; color: #374151; }
+        #module-header .author-list a { color: #2563eb; text-decoration: none; font-weight: 500; }
+        #module-header .affiliation { font-size: 0.9rem; color: #6b7280; margin-bottom: 20px; }
+        #module-header .link-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        #module-header .btn-pill { background: #1f2937; color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        #module-header .btn-pill:hover { background: #000; transform: translateY(-1px); }
+    
+        /* COMMON DEMO STYLES */
+        .task-container { background: #fff; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); padding: 15px; border: 1px solid #e5e7eb; margin-bottom: 40px; }
+        .input-bar { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px 15px; border-radius: 10px; margin-bottom: 15px; color: #1e40af; display: flex; align-items: flex-start; gap: 12px; }
+        .input-icon { font-size: 1.1rem; margin-top: 2px; }
+        .input-content { flex: 1; }
+        .input-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #60a5fa; margin-bottom: 2px; }
+        .question-text { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+        .visual-header-label { font-size: 0.75rem; font-weight: 700; color: #6b7280; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; }
+        .visual-block-container { background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #e5e7eb; position: relative; height: 240px; display: flex; align-items: center; justify-content: center; }
+        .visual-block-container img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .visual-block-container model-viewer { width: 100%; height: 100%; background: #ffffff; --poster-color: #ffffff; }
+        .visual-block-container.focused { border-color: var(--success-border); box-shadow: 0 0 0 3px rgba(134, 239, 172, 0.3); transition: all 0.3s; }
+
+        /* REASONING GRID LAYOUT */
+        .qa-grid { display: grid; grid-template-columns: 42% 56%; gap: 15px 2%; grid-template-areas: "img baselines" "pc ours"; align-items: start; }
+        .area-img { grid-area: img; }
+        .area-pc  { grid-area: pc; }
+        .area-baselines { grid-area: baselines; display: flex; flex-direction: column; gap: 8px; }
+        .area-ours { grid-area: ours; }
+        @media (max-width: 850px) { .qa-grid { grid-template-columns: 1fr; grid-template-areas: "img" "baselines" "ours" "pc"; gap: 20px; } }
+        
+        /* MODEL CARDS */
+        .model-card { border-radius: 10px; border: 1px solid transparent; overflow: hidden; transition: transform 0.2s; }
+        .card-header { padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); min-height: 32px; }
+        .model-name { font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+        .card-body { padding: 8px 12px; }
+        .modality-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .badge-rgb { background: #e5e7eb; color: #4b5563; }
+        .badge-rgbd { background: #e5e7eb; color: #4b5563; }
+    
+        .model-card.baseline { background: var(--fail-bg); border-color: var(--fail-border); }
+        .model-card.baseline .model-name { color: var(--fail-text); }
+        .model-card.baseline-warn { background: var(--warn-bg); border-color: var(--warn-border); }
+        .model-card.baseline-warn .model-name { color: var(--warn-text); }
+        .model-card.ours { background: #ffffff; border: 2px solid var(--success-border); box-shadow: 0 4px 12px rgba(34, 197, 94, 0.05); height: 100%; }
+        .model-card.ours .card-header { background: var(--success-bg); border-bottom: 1px solid var(--success-border); }
+        .model-card.ours .model-name { color: var(--success-text); font-size: 0.95rem; }
+
+        /* GROUNDING METHOD CARDS (NEW) */
+        .g-method-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; border-left-width: 4px; border-left-style: solid; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+        
+        .g-card-gt { border-left-color: var(--g-gt-color); }
+        .g-card-ours { border-left-color: var(--g-ours-color); background: #fffafb; }
+        .g-card-spatial { border-left-color: var(--g-spatial-color); }
+        .g-card-qwen { border-left-color: var(--g-qwen-color); }
+
+        .g-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; }
+        .g-title { display: flex; align-items: center; gap: 6px; }
+        .g-title i { font-size: 0.8rem; }
+        
+        .g-btn-container { display: flex; flex-wrap: wrap; gap: 6px; }
+        .g-btn { 
+            font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; 
+            padding: 4px 8px; border-radius: 4px; cursor: pointer; 
+            border: 1px solid #e5e7eb; background: #fff; color: #374151;
+            display: flex; align-items: center; gap: 5px; transition: all 0.1s;
+        }
+        .g-btn:hover { background: #f9fafb; border-color: #d1d5db; }
+        
+        /* Active States for Grounding Buttons */
+        .g-btn.active-gt { background: #f0fdf4; border-color: var(--g-gt-color); color: var(--g-gt-color); }
+        .g-btn.active-ours { background: #fef2f2; border-color: var(--g-ours-color); color: var(--g-ours-color); }
+        .g-btn.active-spatial { background: #eff6ff; border-color: var(--g-spatial-color); color: var(--g-spatial-color); }
+        .g-btn.active-qwen { background: #f3f4f6; border-color: var(--g-qwen-color); color: var(--g-qwen-color); }
+
+        /* REASONING STYLES */
+        .step-container { margin-bottom: 8px; }
+        .step-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #15803d; margin-bottom: 4px; display: block; opacity: 0.9; }
+        .detect-box { display: flex; flex-wrap: wrap; gap: 6px; }
+        .grounding-btn { background: #fff; border: 1px solid #d1fae5; color: #065f46; padding: 6px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .grounding-btn:hover { border-color: #34d399; background: #ecfdf5; }
+        .grounding-btn.active { background: #059669; color: #fff; border-color: #059669; }
+        .reasoning-box { background: #f0fdf4; border-left: 3px solid #4ade80; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; }
+        .think-label { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 0.75rem; color: #16a34a; background: rgba(22, 163, 74, 0.1); padding: 2px 6px; border-radius: 4px; margin-bottom: 6px; margin-right: 6px; user-select: none; }
+        .model-reasoning-content { font-size: 0.95rem; line-height: 1.5; color: #374151; font-style: italic; }
+        .result-footer { font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; padding-top: 4px; border-top: 1px dashed rgba(0,0,0,0.1); margin-top: 4px; }
+    
+        /* NAV & ANIMATION */
+        .example-nav { margin-top: 15px; padding-top: 10px; border-top: 1px solid #f3f4f6; display: flex; justify-content: center; gap: 15px; }
+        .nav-item { cursor: pointer; opacity: 0.5; transition: all 0.2s; text-align: center; width: 90px; }
+        .nav-item:hover, .nav-item.active { opacity: 1; transform: translateY(-2px); }
+        .nav-thumb { width: 100%; height: 55px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; margin-bottom: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .nav-item.active .nav-thumb { border-color: var(--accent-blue); }
+        .nav-label { font-size: 0.75rem; font-weight: 600; color: #4b5563; }
+        .animate-text { transition: opacity 0.2s; }
+        .changing { opacity: 0; }
+
+        /* [NEW] Prominent Instruction Text Style */
+        .instruction-highlight {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #eff6ff; /* 浅蓝背景 */
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            color: #1e40af; /* 深蓝文字 */
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+        .instruction-highlight i {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="module-navbar">
+    <div class="nav-content">
+        <div class="left-section">
+            <div class="logo-section">
+                <a href="#" class="logo-link">
+                    <img src="images/hy-logo.png" class="logo-img" alt="Logo">
+                </a>
+            </div>
+            <div class="logo-section">
+                <a href="#" class="logo-link">
+                    <img src="images/zjulogo.jpg" class="logo-img" alt="Logo">
+                </a>
+            </div>
+        </div>
+        <div class="menu-section">
+            <!-- 1. Home: 对应顶部 Header -->
+            <a href="#module-header" class="nav-link active">Home</a>
+            
+            <!-- 2. Video: 对应 Teaser Video 区域 -->
+            <a href="#module-video" class="nav-link">Video</a>
+
+            <!-- 3. Abstract: 对应 Abstract -->
+            <a href="#module-abstract" class="nav-link">Abstract</a>
+            
+            <!-- 4. Model: 对应 Model -->
+            <a href="#module-model" class="nav-link">Model</a>
+            
+            <!-- 5. Benchmark: 对应 Benchmark -->
+            <!-- <a href="#module-benchmark" class="nav-link">Benchmark</a> -->
+
+            <!-- 6. Demo: 对应 Demo 区域 -->
+            <a href="#module-demo" class="nav-link">Demo</a>
+
+            <!-- 7. Experiments: 对应底部的 Experiments -->
+            <a href="#experiments" class="nav-link">Experiments</a>
+
+            <!-- 8. Citation: 对应底部的 Citation -->
+            <a href="#citation" class="nav-link">Citation</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <section id="module-header">
+        <div class="proj-title">
+            <!-- <img src="images/logo.png" class="title-logo" alt="DepthVLM Logo"> -->
+            <span>Unlocking Dense Metric Depth Estimation in VLMs</span>
+        </div>
+        
+        <div class="author-list">
+            <a href="https://hanxunyu.github.io/" target="_blank">Hanxun Yu<sup>1,2*</sup></a>,
+            <a href="https://openreview.net/profile?id=%7EXuan_Qu1" target="_blank">Xuan Qu<sup>1,2*</sup></a>,
+            <!-- <a href="https://cyrilsterling.github.io/" target="_blank">Boqiang Zhang<sup>2</sup></a>, -->
+            <a href="https://w-ted.github.io/" target="_blank">Yuxin Wang<sup>2,3</sup></a>,
+            <a href="https://person.zju.edu.cn/jkzhu" target="_blank">Jianke Zhu<sup>1,4</sup></a>,
+            <a href="https://www.kelei.site/" target="_blank">Lei Ke<sup>2</sup></a>
+            <!-- <a href="https://sites.google.com/view/dongyu888/" target="_blank">Dong Yu<sup>2</sup></a> -->
+        </div>
+        
+        <div class="affiliation">
+            <span style="margin-right: 15px;"><sup>1</sup>Zhejiang University</span>
+            <span style="margin-right: 15px;"><sup>2</sup>Tencent Hunyuan LLM</span>
+            <span style="margin-right: 15px;"><sup>3</sup>HKUST</span>
+            <span style="margin-right: 15px;"><sup>4</sup>Shenzhen Loop Area Institute</span>
+        </div>
+
+        <div class="link-buttons">
+            <a href="" class="btn-pill"><i class="fas fa-file-pdf"></i> Paper</a>
+            <!-- <a href="https://github.com/hanxunyu/Stream3D-VLM" class="btn-pill"><i class="fab fa-github"></i> Code</a> -->
+            <a href="" class="btn-pill"><i class="fab fa-github"></i> Code</a>
+            <a href="" class="btn-pill"><i class="fas fa-cube"></i> Model</a>
+            <a href="" class="btn-pill"><i class="fas fa-database"></i> Benchmark</a>
+        </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section id="module-video" style="margin-top: 30px; margin-bottom: 60px;">
+        <div style="max-width: 75%; margin: 0 auto;">
+            <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #e5e7eb; background: #000;">
+                <video width="100%" autoplay muted loop playsinline controls style="display: block;">
+                <!-- <video width="100%" autoplay loop playsinline controls style="display: block;"> -->
+                    <source src="images/project_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div style="margin-top: 15px; color: #4b5563; font-size: 1.05rem; text-align: justify; line-height: 1.6;">
+                <p>
+                    <b>DepthVLM</b> serves as a unified foundation model for both low-level dense geometry prediction and high-level multimodal understanding, while achieving substantially faster inference compared with existing VLM-based approaches such as DepthLM and Youtu-VL.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABSTRACT-->
+    <section id="module-abstract">
+            
+        <!-- 1. Abstract-->
+        <div class="global-section-title" style="margin-bottom: 15px;">Abstract</div>
+        
+        <div style="max-width: 60%; margin: 0 auto; background:#f9fafb; padding:20px; border-radius:12px; color:#4b5563; text-align:justify;">
+            <p>Vision–Language Models (VLMs) excel at 2D tasks such as grounding and captioning, yet remain limited in 3D understanding. A key limitation is their text-only supervision paradigm, which under-constrains fine-grained visual perception and prevents the recovery of dense geometry. Prior methods either distill geometry from external vision models, introducing error accumulation, or enable direct prediction with inefficient per-pixel query or coarse token-level outputs. In this paper, we propose <b>DepthVLM</b>, a simple yet effective framework that transforms a single VLM into a <em>native dense geometry predictor</em> while preserving its multimodal capability. By attaching a lightweight depth head to the LLM backbone and training under a unified vision–text supervision paradigm with a two-stage schedule, DepthVLM generates full-resolution depth maps alongside language outputs in a single forward pass. We further introduce a unified indoor–outdoor metric depth benchmark in a VLM-compatible format. Experiments show that DepthVLM significantly outperforms existing VLMs with higher inference efficiency, surpasses leading pure vision models, and improves complex 3D spatial reasoning, moving toward a truly unified foundation model. All code and checkpoints will be publicly released.</p>
+        </div>
+
+    </section>
+
+    <!-- Model -->
+    <section id="module-model">
+        <!-- 第二张图区域 (Model Architecture) -->
+        <div style="max-width: 85%; margin: 0 auto;">
+            
+            <!-- 标题：复用了 global-section-title 类 -->
+            <div class="global-section-title" style="margin-bottom: 15px;">Model Architecture</div>
+
+            <div style="text-align: center;">
+                <img src="./images/pipeline-v1.png" alt="Model Pipeline" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Overview of our proposed DepthVLM.</strong> We extend the standard VLM architecture with a lightweight DPT-style depth prediction head, and adopt a two-stage training strategy to preserve the backbone's general VQA capability. In addition, input images are normalized to a unified focal length, eliminating camera-induced ambiguity across heterogeneous dataset domains.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Demo -->
+    <section id="module-demo" style="margin-top: 60px; margin-bottom: 60px;">
+        <div style="max-width: 85%; margin: 40px auto 0 auto;">   
+            <div class="global-section-title" style="margin-bottom: 15px;">Demo & Visualization</div>
+            
+            <div style="margin-bottom: 50px; text-align: center;">
+                <img src="./images/demoQA-v1.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Qualitative results on more complex 3D tasks.</strong> 
+                    Beyond dense metric depth estimation, our model further supports a variety of downstream 3D reasoning tasks, demonstrating that native dense geometry prediction serves as a solid foundation for high-level spatial reasoning in VLMs.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 50px; text-align: center;">
+                <img src="./images/visualization_v1.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Qualitative comparison with others.</strong> 
+                    Our results show finer structural details and improved semantic consistency across diverse scenes. 
+                </p>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Experiments -->
+    <section id="experiments">
+        <div style="max-width: 85%; margin: 40px auto 0 auto;">            
+            <!-- 标题：复用了 global-section-title 类，保证与 Abstract 对齐 -->
+            <div class="global-section-title" style="margin-bottom: 15px;">Experiments</div>
+            <div style="margin-bottom: 50px; text-align: center;">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Comparison with existing VLMs on metric depth estimation across diverse indoor and outdoor datasets.</strong> 
+                    For VLMs not explicitly trained for this task, 
+                    we adopt the prompting strategy proposed in DepthLM to elicit their best performance. 
+                    Even the state-of-the-art GPT-5.5 attains a δ₁ of only around 0.4, 
+                    highlighting the difficulty of the task for prevailing VLMs. 
+                    <strong>Bold</strong> and <u>underlined</u> values denote the best and second-best results, respectively.
+                </p>
+                <img src="./images/table1.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+            
+            <div style="margin-bottom: 50px; text-align: center;">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Comparison with specialized pure vision models on metric depth estimation across indoor and outdoor datasets.</strong> 
+                    Despite being a unified VLM that preserves strong multimodal capabilities, our method can outperform state-of-the-art pure vision specialists, demonstrating that dense geometry prediction can emerge natively within a single vision-language foundation model.
+                </p>
+                <img src="./images/table2.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+
+            <!-- <div style="margin-bottom: 50px; text-align: center;">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Evaluation on broad visual benchmarks, covering general VQA, document understanding, multi-image reasoning, counting, and hallucination.</strong> 
+                    Empowered by our lightweight depth head and two-stage training strategy, our method natively gains the ability to generate dense geometry <em>without sacrificing</em> the general multimodal capability of the underlying VLM, in sharp contrast to prior text-heavy supervision approach that typically incurs substantial capability degradation.
+                </p>
+                <img src="./images/table3.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div> -->
+
+            <!-- <div style="margin-bottom: 50px; text-align: center;">
+                <p style="margin-top: 10px; color: #4b5563; font-size: 0.95em; text-align: justify;">
+                    <strong>Evaluation on spatial reasoning benchmarks.</strong> 
+                    We compare our model against the corresponding Qwen3-VL backbones on VSI-Bench and the 3D subset of CV-Bench.
+                </p>
+                <img src="./images/table4.png" alt="experiments" style="width: 100%; max-width: 1000px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div> -->
+        </div>
+
+        <!-- 增加底部间距 -->
+        <div style="margin-bottom: 40px;"></div>
+
+    </section>
+
+
+
+    <!-- CITATION SECTION -->
+    <section id="citation" style="margin-top: 60px; margin-bottom: 60px;">
+    
+        <!-- 标题：与 Abstract 保持一致 -->
+        <div class="global-section-title" style="margin-bottom: 20px;">Citation</div>
+
+        <!-- BibTeX 代码块容器 -->
+        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+            <div style="background-color: #f6f8fa; border: 1px solid #d1d5db; border-radius: 10px; padding: 20px; overflow-x: auto;">
+                <pre style="margin: 0; font-family: 'Courier New', Courier, monospace; font-size: 14px; color: #374151; line-height: 1.6;"><code>@article{xxxxxxxx,
+    title={Unlocking Dense Metric Depth Estimation in VLMs},
+    author={Author1, Author2, Author3, Author4, Author5},
+    journal={xxxxxxxx:xxxx.xxxx},
+    year={xxxx}
+}</code></pre>
+            </div>
+            
+            <!-- 提示文字 -->
+            <p style="text-align: center; color: #9ca3af; font-size: 0.85em; margin-top: 10px;">
+                If you find our work useful in your research, please consider citing us.
+            </p>
+        </div>
+
+    </section>
+
+<script>
+    // Navbar Logic —— 处理导航链接的激活状态
+    const navLinks = document.querySelectorAll('#module-navbar .nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</div>
+</body>
+</html>

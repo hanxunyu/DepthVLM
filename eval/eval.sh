@@ -2,7 +2,7 @@
 
 # ========== Configuration ==========
 
-model_path=
+model_path=JonnyYu828/DepthVLM-8B
 
 # Load dataset path configuration
 source configs/eval_datasets.conf

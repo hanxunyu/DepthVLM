@@ -4,9 +4,9 @@
 #   - colored point clouds (.ply, camera frame)
 set -e
 
-MODEL_PATH=/apdcephfs/share_300000800/datamultimodal/hanxun2_data/ft-v4-multinodes-2000k-unifocal-DepthLM-qwen3-vl-8b-pixel-DPT-stage1b_20260423_1445-dptv1
-IMAGE_DIR=/apdcephfs_cq11/share_1603164/user/jonnyhxyu/DepthLM_Official/DepthVLM/demo_images
-OUTPUT_DIR=demo_outputs
+MODEL_PATH=JonnyYu828/DepthVLM-8B
+IMAGE_DIR=demo_images/
+OUTPUT_DIR=demo_outputs/
 
 GPUS="0"
 while [[ $# -gt 0 ]]; do
