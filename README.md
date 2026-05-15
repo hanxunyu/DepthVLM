@@ -30,7 +30,17 @@
 
 
 
-https://github.com/user-attachments/assets/772c15d7-2fac-4bbb-9874-112073feefe7
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/772c15d7-2fac-4bbb-9874-112073feefe7"
+         width="80%"
+         autoplay
+         muted
+         loop
+         playsinline
+         controls>
+    Your browser does not support the video tag.
+  </video>
+</p>
 
 
 
