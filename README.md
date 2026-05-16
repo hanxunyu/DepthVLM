@@ -17,7 +17,7 @@
 </p>
 
 <div align="center">
-    <a href='https://arxiv.org/abs/2512.16561' target="_blank"><img src='https://img.shields.io/badge/arXiv-XXXX-b31b1b?logo=arxiv&logoColor=red'></a>  
+    <a href='' target="_blank"><img src='https://img.shields.io/badge/arXiv-XXXX-b31b1b?logo=arxiv&logoColor=red'></a>  
     <a href='https://depthvlm.github.io/' target="_blank"><img src='https://img.shields.io/badge/Project-Home%20Page-Green?logo=safari&logoColor=white'></a>  
     <a href='https://huggingface.co/JonnyYu828/DepthVLM-4B' target="_blank">
         <img src='https://img.shields.io/badge/%F0%9F%93%A6%EF%B8%8F%20Hugging%20Face-Model-orange'>
@@ -61,7 +61,7 @@
 
 
 ## 📰 News
-- [2026-05-20] 🔥 We release [DepthVLM-Bench](xxxx) in Hugging Face 🤗.
+- [2026-05-20] 🔥 We release [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench) in Hugging Face 🤗.
 - [2026-05-20] 🔥 We release the checkpoint of [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗.
 - [2026-05-20] 🔥 We release the training and inference code.
 - [2026-05-20] 🔥 We release the [paper](xxxxx) of DepthVLM.
@@ -81,10 +81,10 @@ pip install flash-attn==2.6.3 --no-build-isolation
 ## 📊 Data Preparation
 - Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [data_process.md](./data_process/data_process.md) for detailed dataset-specific preparation instructions.
 - We provide visualization examples from ScanNet++ in the [examples](./examples) folder.
-- We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM) on Hugging Face 🤗.
+- We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench) on Hugging Face 🤗.
 
 ## 📦️ Pretrained models
-We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) in Hugging Face 🤗. 
+We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗. 
 
 
 ## 🤖 Inference Examples 
@@ -95,7 +95,7 @@ Run our example inference script to generate the predicted depth maps and 3D poi
 bash examples/run_demo.sh
 ```
 
-Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM).
+Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench).
 ```
 bash eval/eval.sh
 ```
@@ -111,7 +111,7 @@ Stage2: end-to-end fine-tuning
 ```
 bash train/train-stage2.sh
 ```
-[DepthVLM-4B](https://huggingface.co/JonnyYu828/Stream3D-VLM) is trained for two days on 80 NVIDIA H20 GPUs (96GB).
+[DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) is trained for two days on 80 NVIDIA H20 GPUs (96GB).
 
 
 ## 🔬 Experiment Results
