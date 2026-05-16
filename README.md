@@ -95,7 +95,7 @@ Run our example inference script to generate the predicted depth maps and 3D poi
 bash examples/run_demo.sh
 ```
 
-Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench).
+Specify the annotation and dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf), then run evaluation script for [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench).
 ```
 bash eval/eval.sh
 ```
