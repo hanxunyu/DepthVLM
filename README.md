@@ -92,7 +92,7 @@ We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/
 Run our example inference script to generate the predicted depth maps and 3D point clouds.
 ```
 # visualization examples
-bash examples/visualize_examples.sh
+bash examples/run_demo.sh
 ```
 
 Specify the dataset paths in [configs/eval_datasets.conf](configs/eval_datasets.conf) and run evaluation script for [DepthVLM-Bench](https://huggingface.co/yuxinhk/N3D-VLM).
