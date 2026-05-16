@@ -7,7 +7,7 @@
     <a href="https://hanxunyu.github.io/" target="_blank">Hanxun Yu<sup>1,2*</sup></a>,
     <a href="https://openreview.net/profile?id=%7EXuan_Qu1" target="_blank">Xuan Qu<sup>1,2*</sup></a>,
     <a href="https://w-ted.github.io/" target="_blank">Yuxin Wang<sup>2,3</sup></a>,
-    <a href="https://person.zju.edu.cn/jkzhu" target="_blank">Jianke Zhu<sup>1,4</sup></a>,
+    <a href="https://person.zju.edu.cn/en/jkzhu" target="_blank">Jianke Zhu<sup>1,4</sup></a>,
     <a href="https://www.kelei.site/" target="_blank">Lei Ke<sup>2</sup></a>
     <br>
     <sup>1</sup>Zhejiang University,
