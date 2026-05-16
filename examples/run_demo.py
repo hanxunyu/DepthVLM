@@ -116,9 +116,6 @@ def depth_to_pointcloud(depth: np.ndarray, K: np.ndarray,
                         max_depth: float = SCANNETPP_MAX_DEPTH):
     """Back-project a depth map into a colored point cloud.
 
-    The coordinate convention is X-right, Y-up, Z-forward so that common
-    3-D viewers display the cloud upright from the camera's viewpoint.
-
     Returns:
         (points, colors): each shaped ``(N, 3)``.
     """
@@ -133,7 +130,7 @@ def depth_to_pointcloud(depth: np.ndarray, K: np.ndarray,
     ys, xs = np.nonzero(valid)
     zs = depth[ys, xs].astype(np.float32)
     Xs = (xs.astype(np.float32) - cx) * zs / fx
-    Ys = -((ys.astype(np.float32) - cy) * zs / fy)
+    Ys = (ys.astype(np.float32) - cy) * zs / fy
     points = np.stack([Xs, Ys, zs], axis=1)
 
     if rgb_bgr is not None:
