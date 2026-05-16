@@ -102,6 +102,8 @@ bash eval/eval.sh
 
 
 ## 🚀 Two-Stage Training
+Specify the annotation and dataset paths in [configs/train_datasets.conf](configs/train_datasets.conf), then run the following training scripts.
+
 Stage1: depth head-only training
 ```
 # stage-1 
