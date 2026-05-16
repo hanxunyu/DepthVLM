@@ -28,8 +28,8 @@ BSZ=24
 
 # ===== Specify GPUs to use =====
 # Option 1: edit the variable below, e.g. GPUS="0,1,2,3" or GPUS="2,5,7"
-# Option 2: pass at runtime, e.g. bash eval-debug-all-datasets.sh --gpus 0,1,2,3
-# Option 3: environment variable, e.g. CUDA_VISIBLE_DEVICES=0,1,2,3 bash eval-debug-all-datasets.sh
+# Option 2: pass at runtime, e.g. bash eval.sh --gpus 0,1,2,3
+# Option 3: environment variable, e.g. CUDA_VISIBLE_DEVICES=0,1,2,3 bash eval.sh
 # Leave empty to auto-use all available GPUs
 GPUS=""
 
