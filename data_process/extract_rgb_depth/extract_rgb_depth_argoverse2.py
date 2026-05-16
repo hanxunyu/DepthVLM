@@ -1,25 +1,22 @@
-# Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from Argoverse 2 dataset.
-# Reference: utils/curate_argoverse.py
-# Usage: python extract_rgb_depth_argoverse2.py --root_folder <...> --out_folder <...> [--num_workers 8]
-#
-# Output structure (scene-based, consistent with nuScenes/Waymo/DDAD):
-#   out_folder/{train,val,test}/rgb/{log_id}/{timestamp_ns}_{cam_name}.jpg
-#   out_folder/{train,val,test}/depth/{log_id}/{timestamp_ns}_{cam_name}.png  (uint16, depth_m × 256)
-#   out_folder/{train,val,test}/intrinsics/{log_id}/{timestamp_ns}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
-#   out_folder/{train,val,test}/index.jsonl  (per-frame metadata for traceability)
-"""
-Example usage:
+"""Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from Argoverse 2.
 
-python extract_rgb_depth_argoverse2.py \
-    --root_folder /path/to/argoverse_raw \
-    --out_folder /path/to/argoverse \
-    --num_workers 64
+Output structure:
+    out_folder/{train,val,test}/rgb/{log_id}/{timestamp_ns}_{cam_name}.jpg
+    out_folder/{train,val,test}/depth/{log_id}/{timestamp_ns}_{cam_name}.png  (uint16, depth_m * 256)
+    out_folder/{train,val,test}/intrinsics/{log_id}/{timestamp_ns}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
+    out_folder/{train,val,test}/index.jsonl  (per-frame metadata)
 
-python extract_rgb_depth_argoverse2.py \
-    --root_folder /path/to/argoverse_raw \
-    --out_folder /path/to/argoverse \
-    --num_workers 32 \
-    --intrinsics_only
+Usage:
+    python extract_rgb_depth_argoverse2.py \\
+        --root_folder /path/to/argoverse_raw \\
+        --out_folder /path/to/argoverse \\
+        --num_workers 64
+
+    python extract_rgb_depth_argoverse2.py \\
+        --root_folder /path/to/argoverse_raw \\
+        --out_folder /path/to/argoverse \\
+        --num_workers 32 \\
+        --intrinsics_only
 """
 
 import argparse

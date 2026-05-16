@@ -1,26 +1,23 @@
-# Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from nuScenes dataset.
-# Reference: utils/curate_nuscenes_train.py
-# Usage: python extract_rgb_depth_nuscenes.py --dataroot <...> --out_folder <...> [--num_workers 8]
-#
-# Output structure (scene-based, consistent with Waymo/Argoverse):
-#   out_folder/{train,val,test}/rgb/{scene_name}/{timestamp}_{cam_name}.jpg
-#   out_folder/{train,val,test}/depth/{scene_name}/{timestamp}_{cam_name}.png  (uint16, depth_m × 256)
-#   out_folder/{train,val,test}/intrinsics/{scene_name}/{timestamp}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
-#   out_folder/{train,val,test}/index.jsonl  (per-frame metadata for traceability)
-"""
-Example usage:
+"""Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from nuScenes.
 
-python extract_rgb_depth_nuscenes.py \
-    --dataroot /path/to/nuscenes_raw \
-    --out_folder /path/to/nuscenes \
-    --num_workers 32 \
-    --splits train val test
+Output structure:
+    out_folder/{train,val,test}/rgb/{scene_name}/{timestamp}_{cam_name}.jpg
+    out_folder/{train,val,test}/depth/{scene_name}/{timestamp}_{cam_name}.png  (uint16, depth_m * 256)
+    out_folder/{train,val,test}/intrinsics/{scene_name}/{timestamp}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
+    out_folder/{train,val,test}/index.jsonl  (per-frame metadata)
 
-python extract_rgb_depth_nuscenes.py \
-    --dataroot /path/to/nuscenes_raw \
-    --out_folder /path/to/nuscenes \
-    --num_workers 16 \
-    --intrinsics_only
+Usage:
+    python extract_rgb_depth_nuscenes.py \\
+        --dataroot /path/to/nuscenes_raw \\
+        --out_folder /path/to/nuscenes \\
+        --num_workers 32 \\
+        --splits train val test
+
+    python extract_rgb_depth_nuscenes.py \\
+        --dataroot /path/to/nuscenes_raw \\
+        --out_folder /path/to/nuscenes \\
+        --num_workers 16 \\
+        --intrinsics_only
 """
 
 import argparse
