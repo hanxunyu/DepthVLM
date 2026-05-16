@@ -10,10 +10,10 @@
     <a href="https://person.zju.edu.cn/jkzhu" target="_blank">Jianke Zhu<sup>1,4</sup></a>,
     <a href="https://www.kelei.site/" target="_blank">Lei Ke<sup>2</sup></a>
     <br>
-    <sup>1</sup>ZJU,
+    <sup>1</sup>Zhejiang University,
     <sup>2</sup>Tencent Hunyuan LLM,
     <sup>3</sup>HKUST
-    <sup>4</sup>SLAI
+    <sup>4</sup>Shenzhen Loop Area Institute
 </p>
 
 <div align="center">
