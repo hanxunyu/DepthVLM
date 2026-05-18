@@ -17,7 +17,7 @@
 </p>
 
 <div align="center">
-    <a href='' target="_blank"><img src='https://img.shields.io/badge/arXiv-XXXX-b31b1b?logo=arxiv&logoColor=red'></a>  
+    <a href='https://arxiv.org/abs/2605.15876' target="_blank"><img src='https://img.shields.io/badge/arXiv-2605.15876-b31b1b?logo=arxiv&logoColor=red'></a>  
     <a href='https://depthvlm.github.io/' target="_blank"><img src='https://img.shields.io/badge/Project-Home%20Page-Green?logo=safari&logoColor=white'></a>  
     <a href='https://huggingface.co/JonnyYu828/DepthVLM-4B' target="_blank">
         <img src='https://img.shields.io/badge/%F0%9F%93%A6%EF%B8%8F%20Hugging%20Face-Model-orange'>
@@ -61,10 +61,10 @@
 
 
 ## 📰 News
-- [2026-05-20] 🔥 We release [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench) in Hugging Face 🤗.
-- [2026-05-20] 🔥 We release the checkpoint of [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗.
-- [2026-05-20] 🔥 We release the training and inference code.
-- [2026-05-20] 🔥 We release the [paper](xxxxx) of DepthVLM.
+- [2026-05-18] 🔥 We release [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench) in Hugging Face 🤗.
+- [2026-05-18] 🔥 We release the checkpoint of [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗.
+- [2026-05-18] 🔥 We release the training and inference code.
+- [2026-05-15] 🔥 We release the [paper](https://arxiv.org/abs/2605.15876) of DepthVLM.
 
 
 ## 🛠️ Installation
