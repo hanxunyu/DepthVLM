@@ -19,8 +19,8 @@ source configs/eval_datasets.conf
 EVAL_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP ETH3D SUNRGBD IBIMS1 NYUV2"
 
 
-# GENERATE_TEXT=false # Stage 1a -> false
-GENERATE_TEXT=true # Stage 1b -> true
+# GENERATE_TEXT=false # Stage 1 -> false
+GENERATE_TEXT=true # Stage 2 -> true
 
 SAVE_DEPTH_MAPS=false
 max_save_depth_maps=20
