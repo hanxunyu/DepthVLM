@@ -88,7 +88,7 @@ echo "[mem] PYTORCH_CUDA_ALLOC_CONF=$PYTORCH_CUDA_ALLOC_CONF  CUBLAS_WORKSPACE_C
 # Training hyperparameters
 ############################
 GLOBAL_BATCH_SIZE=640
-LOCAL_BATCH_SIZE=8       # 8B unfrozen-LLM scenario; keep 8 to leave headroom for optimizer state memory
+LOCAL_BATCH_SIZE=8     
 
 TOTAL_GPUS=$(( NNODES * NPROC_PER_NODE ))
 GLOBAL_STEP_BATCH=$(( TOTAL_GPUS * LOCAL_BATCH_SIZE ))
