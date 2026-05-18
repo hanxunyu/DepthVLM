@@ -621,11 +621,9 @@ class dataset_qa_train(Dataset):
         record = self.list_data_dict[id_dataset][local_idx]
         media_root = self.image_folder[id_dataset]
 
-        # Video sample (VSI-Bench)
         if "scene_name" in record and "dataset" in record:
             sample = self._make_video_sample(record, media_root)
         else:
-            # Single-image sample (CV-Bench-3D)
             sample = self._make_image_sample(record, media_root)
 
         if sample is None:
