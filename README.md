@@ -155,5 +155,10 @@ We are grateful for the open-source contributions of other projects:
 ## 🖊️ Citation
 
 ```BibTeX
-
+@article{yu2026unlocking,
+  title={Unlocking Dense Metric Depth Estimation in VLMs},
+  author={Hanxun Yu and Xuan Qu and Yuxin Wang and Jianke Zhu and Lei Ke},
+  journal={arXiv preprint arXiv:2605.15876},
+  year={2026}
+}
 ```
