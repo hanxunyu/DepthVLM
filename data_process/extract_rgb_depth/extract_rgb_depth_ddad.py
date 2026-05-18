@@ -1,33 +1,30 @@
-# Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from DDAD dataset.
-# Reference: utils/curate_ddad.py
-# Usage: python extract_rgb_depth_ddad.py --ddad_json <...> --out_folder <...> --path_to_dgp_lib <...> [--num_workers 8]
-#
-# Output structure (scene-based, consistent with Waymo/Argoverse):
-#   out_folder/{train,val}/rgb/{scene_name}/{timestamp}_{cam_name}.jpg
-#   out_folder/{train,val}/depth/{scene_name}/{timestamp}_{cam_name}.png  (uint16, depth_m × 256)
-#   out_folder/{train,val}/intrinsics/{scene_name}/{timestamp}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
-#   out_folder/{train,val}/index.jsonl  (per-frame metadata for traceability)
-#
-# DDAD uses Luminar-H2 LiDAR with max range ~250 m.
-# depth_scale=256 → max representable depth = 65535/256 ≈ 255.9 m, which covers the full range.
-"""
-Example usage:
+"""Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from DDAD.
 
-python extract_rgb_depth_ddad.py \
-    --ddad_json /path/to/ddad/ddad_train_val/ddad.json \
-    --out_folder /path/to/ddad \
-    --path_to_dgp_lib /path/to/dgp \
-    --num_workers 32
+DDAD uses Luminar-H2 LiDAR with max range ~250 m.
+depth_scale=256: max representable depth = 65535/256 ~ 255.9 m (covers the full range).
 
-python extract_rgb_depth_ddad.py \
-    --ddad_json /path/to/ddad/ddad_train_val/ddad.json \
-    --out_folder /path/to/ddad \
-    --path_to_dgp_lib /path/to/dgp \
-    --num_workers 32 \
-    --intrinsics_only
+Output structure:
+    out_folder/{train,val}/rgb/{scene_name}/{timestamp}_{cam_name}.jpg
+    out_folder/{train,val}/depth/{scene_name}/{timestamp}_{cam_name}.png  (uint16, depth_m * 256)
+    out_folder/{train,val}/intrinsics/{scene_name}/{timestamp}_{cam_name}.json  ([fx, fy, cx, cy, W, H])
+    out_folder/{train,val}/index.jsonl  (per-frame metadata)
 
-PS:
-    Install the dgp library following the "How to Use" section in https://github.com/TRI-ML/DDAD
+Prerequisites:
+    Install the dgp library following https://github.com/TRI-ML/DDAD
+
+Usage:
+    python extract_rgb_depth_ddad.py \\
+        --ddad_json /path/to/ddad/ddad_train_val/ddad.json \\
+        --out_folder /path/to/ddad \\
+        --path_to_dgp_lib /path/to/dgp \\
+        --num_workers 32
+
+    python extract_rgb_depth_ddad.py \\
+        --ddad_json /path/to/ddad/ddad_train_val/ddad.json \\
+        --out_folder /path/to/ddad \\
+        --path_to_dgp_lib /path/to/dgp \\
+        --num_workers 32 \\
+        --intrinsics_only
 """
 
 import argparse

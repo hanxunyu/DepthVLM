@@ -6,20 +6,17 @@ Directory structure:
     argoverse_v2/
     ├── train/
     │   ├── rgb/{scene_id}/{timestamp}_{camera}.jpg
-    │   ├── depth/{scene_id}/{timestamp}_{camera}.png   (uint16, depth_scale to be verified)
+    │   ├── depth/{scene_id}/{timestamp}_{camera}.png   (uint16, depth_m * 256)
     │   ├── intrinsics/{scene_id}/{timestamp}_{camera}.json  → [fx, fy, cx, cy, W, H]
     │   └── index.jsonl
-    ├── val/  (same as above)
-    └── test/ (same as above)
-
-Based on intrinsics JSON files to build JSONL (RGB/depth have one-to-one correspondence).
-ring_front_center resolution is 1550×2048, other ring cameras are 2048×1550.
+    ├── val/  (same layout)
+    └── test/ (same layout)
 
 Usage:
-    python create_data_pixel_level_argoverse2.py \
-        --data_root /path/to/argoverse_v2 \
-        --splits train,val,test \
-        --output_dir ./annotations/argoverse2 \
+    python create_data_pixel_level_argoverse2.py \\
+        --data_root /path/to/argoverse_v2 \\
+        --splits train,val,test \\
+        --output_dir ./annotations/argoverse2 \\
         --num_workers 32
 """
 import argparse

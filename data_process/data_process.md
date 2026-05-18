@@ -39,7 +39,8 @@ data_process/
 │   └── sample_images_waymo.py
 ├── sample_test_points/         # Stage 4b: Sample depth points on selected test images
 │   └── sample_points.py
-└── README.md
+├── data_process.md
+└── README_CN.md
 ```
 
 ## Stage 1: Download Datasets

@@ -1,27 +1,26 @@
-# Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from Waymo Open Dataset (v2 parquet format).
-# Reference: utils/curate_waymo.py
-# Usage: python extract_rgb_depth_waymo.py --dataset_dir <...> --out_folder <...> [--num_workers 8]
-#
-# Output structure:
-#   out_folder/{split}/rgb/segment_context_name/timestamp_camera.jpg
-#   out_folder/{split}/depth/segment_context_name/timestamp_camera.png  (uint16, depth_m × 256)
-#   out_folder/{split}/intrinsics/segment_context_name/timestamp_camera.json  ([fx, fy, cx, cy, W, H])
-#   out_folder/{split}/index.jsonl  (per-frame metadata for traceability)
-"""
-Example usage:
+"""Extract RGB images, sparse LiDAR depth maps, and camera intrinsics from Waymo Open Dataset.
 
-# Process a single split:
-python extract_rgb_depth_waymo.py \
-    --dataset_dir /path/to/waymo_raw \
-    --out_folder /path/to/waymo_out \
-    --num_workers 8 \
-    --splits training
+Reads the v2 parquet format.
 
-# Process all splits (default):
-python extract_rgb_depth_waymo.py \
-    --dataset_dir /path/to/waymo_raw \
-    --out_folder /path/to/waymo_out \
-    --num_workers 32
+Output structure:
+    out_folder/{split}/rgb/{segment_context_name}/{timestamp}_{camera}.jpg
+    out_folder/{split}/depth/{segment_context_name}/{timestamp}_{camera}.png  (uint16, depth_m * 256)
+    out_folder/{split}/intrinsics/{segment_context_name}/{timestamp}_{camera}.json  ([fx, fy, cx, cy, W, H])
+    out_folder/{split}/index.jsonl  (per-frame metadata)
+
+Usage:
+    # Process a single split:
+    python extract_rgb_depth_waymo.py \\
+        --dataset_dir /path/to/waymo_raw \\
+        --out_folder /path/to/waymo_out \\
+        --num_workers 8 \\
+        --splits training
+
+    # Process all splits (default):
+    python extract_rgb_depth_waymo.py \\
+        --dataset_dir /path/to/waymo_raw \\
+        --out_folder /path/to/waymo_out \\
+        --num_workers 32
 """
 
 import argparse
