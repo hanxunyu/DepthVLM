@@ -342,7 +342,7 @@ def main(args):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-    parser = argparse.ArgumentParser(description="DepthLM Pixel-Level Depth evaluation.")
+    parser = argparse.ArgumentParser(description="DepthVLM Pixel-Level Depth evaluation.")
     parser.add_argument("--model_path", type=str, required=True)
     parser.add_argument("--image_folder", type=str, required=True)
     parser.add_argument("--json_path", type=str, required=True)
