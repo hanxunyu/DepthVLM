@@ -392,7 +392,6 @@ def main(script_args, training_args, model_args):
 
     # Dynamic selection by --dataset_class:
     #   * dataset_pixel_depth_train (default): existing depth dataset (requires depth_root / canonical_size)
-    #   * dataset_qa_train            : pure QA dataset (CV-Bench-3D single image + VSI-Bench video), no depth supervision
     import importlib
     ds_mod = importlib.import_module("utils.datasets")
     if not hasattr(ds_mod, script_args.dataset_class):
@@ -469,18 +468,18 @@ def main(script_args, training_args, model_args):
 
     # ===== Freezing strategy =====
     if script_args.freeze_mllm:
-        # Stage 1a: freeze LLM + Vision Encoder + LM Head, train only the DPT Depth Head
+        # Stage 1: freeze LLM + Vision Encoder + LM Head, train only the DPT Depth Head
         for param in model.parameters():
             param.requires_grad = False
         for param in model.depth_head.parameters():
             param.requires_grad = True
-        logger.info("Stage 1a: Frozen LLM + ViT, only training depth_head (DPT)")
+        logger.info("Stage 1: Frozen LLM + ViT, only training depth_head (DPT)")
 
     if script_args.freeze_vision:
-        # Stage 1b: freeze Vision Encoder, train LLM + DPT Depth Head + LM Head
+        # Stage 2: freeze Vision Encoder, train LLM + DPT Depth Head + LM Head
         for param in model.model.visual.parameters():
             param.requires_grad = False
-        logger.info("Stage 1b: Frozen Vision Encoder")
+        logger.info("Stage 2: Frozen Vision Encoder")
 
     if script_args.freeze_depth_head:
         # QA-SFT scenario: freeze depth head to prevent LoRA/LM gradients from indirectly breaking depth ability
