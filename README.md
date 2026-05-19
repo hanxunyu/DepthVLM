@@ -83,7 +83,7 @@ pip install flash-attn==2.6.3 --no-build-isolation
 - We provide visualization examples from ScanNet++ in the [examples](./examples) folder.
 - We also release the curated annotations of [DepthVLM-Bench](https://huggingface.co/datasets/JonnyYu828/DepthVLM-Bench) on Hugging Face 🤗.
 
-## 📦️ Pretrained models
+## 📦️ Pretrained Models
 We provide the pretrained model [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) in Hugging Face 🤗. 
 
 
