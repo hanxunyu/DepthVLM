@@ -12,7 +12,7 @@
     <br>
     <sup>1</sup>Zhejiang University,
     <sup>2</sup>Tencent Hunyuan LLM,
-    <sup>3</sup>HKUST
+    <sup>3</sup>HKUST,
     <sup>4</sup>Shenzhen Loop Area Institute
 </p>
 
