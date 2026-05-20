@@ -118,14 +118,19 @@ bash train/train-stage2.sh
 
 ## 🔬 Experiment Results
 
-### Comparison with VLMs
+### Comparison with VLMs (Sparse Points)
 <div align="left">
 <img src="assets/table1.png" width="99%" alt="model">
 </div>
 
-### Comparison with pure vision models
+### Comparison with Pure Vision Models (Sparse Points)
 <div align="left">
 <img src="assets/table2.png" width="99%" alt="model">
+</div>
+
+### Comparison with Pure Vision Models (Full Depth Map)
+<div align="left">
+<img src="assets/table2-full-map.png" width="99%" alt="model">
 </div>
 
 ### Visualization Comparison

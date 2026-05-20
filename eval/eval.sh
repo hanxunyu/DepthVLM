@@ -18,9 +18,13 @@ source configs/eval_datasets.conf
 # Names must match the variable prefix (uppercase) in eval_datasets.conf
 EVAL_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP ETH3D SUNRGBD IBIMS1 NYUV2"
 
-
 # GENERATE_TEXT=false # Stage 1 -> false
 GENERATE_TEXT=true # Stage 2 -> true
+
+# ===== Evaluation mode =====
+#   sparse : force sparse-points eval (pixel_coords + depth)
+#   dense  : force full depth-map eval (depth_path)
+EVAL_MODE="sparse"
 
 SAVE_DEPTH_MAPS=false
 max_save_depth_maps=20
@@ -75,7 +79,7 @@ echo "All outputs -> ${BASE_OUTPUT}"
 cleanup() {
     echo ""
     echo "Caught Ctrl+C! Killing all processes..."
-    pkill -f "eval-debug.py.*--output_dir ${BASE_OUTPUT}" 2>/dev/null
+    pkill -f "eval.py.*--output_dir ${BASE_OUTPUT}" 2>/dev/null
     exit 1
 }
 trap cleanup SIGINT SIGTERM
@@ -136,6 +140,7 @@ for ds in ${EVAL_DATASETS}; do
             --image_folder "$image_folder" \
             --json_path "$json_path" \
             --depth_root "$depth_folder" \
+            --eval_mode "$EVAL_MODE" \
             $([ "$GENERATE_TEXT" = "true" ] && echo "--generate_text") \
             $([ "$SAVE_DEPTH_MAPS" = "true" ] && echo "--save_depth_maps") \
             --max_save_depth_maps $max_save_depth_maps \

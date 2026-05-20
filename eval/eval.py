@@ -66,6 +66,7 @@ def main(args):
     dataset = dataset_pixel_depth_eval(
         json_path, image_folder,
         depth_root=args.depth_root,
+        eval_mode=args.eval_mode,
     )
     print(f"dataset size = {len(dataset)}")
 
@@ -342,7 +343,7 @@ def main(args):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-    parser = argparse.ArgumentParser(description="DepthVLM Pixel-Level Depth evaluation.")
+    parser = argparse.ArgumentParser(description="DepthLM Pixel-Level Depth evaluation.")
     parser.add_argument("--model_path", type=str, required=True)
     parser.add_argument("--image_folder", type=str, required=True)
     parser.add_argument("--json_path", type=str, required=True)
@@ -350,6 +351,11 @@ if __name__ == "__main__":
                         help="Root dir of original depth maps for GT loading")
     parser.add_argument("--generate_text", action="store_true",
                         help="Generate text output (use for stage 1b models trained with LM loss)")
+    parser.add_argument("--eval_mode", type=str, default="auto",
+                        choices=["auto", "sparse", "dense"],
+                        help="Evaluation mode: 'auto' picks per-sample by jsonl fields (sparse-priority); "
+                             "'sparse' forces sparse-points (pixel_coords + depth); "
+                             "'dense' forces full depth-map (depth_path).")
     parser.add_argument("--save_depth_maps", action="store_true",
                         help="Save pred/gt depth maps as .npy files for visualization")
     parser.add_argument("--max_save_depth_maps", type=int, default=-1,

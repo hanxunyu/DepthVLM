@@ -303,10 +303,17 @@ class dataset_pixel_depth_eval(Dataset):
         data_path: str,
         image_folder: str,
         depth_root: str = None,
+        eval_mode: str = "auto",
         **kwargs,
     ) -> None:
         super().__init__()
+        if eval_mode not in ("auto", "sparse", "dense"):
+            raise ValueError(
+                f"eval_mode must be one of 'auto' | 'sparse' | 'dense', got {eval_mode!r}"
+            )
+        self.eval_mode = eval_mode
         print(f"[dataset_pixel_depth_eval] reading data from {data_path}")
+        print(f"  eval_mode = {eval_mode}")
 
         data_paths = data_path.split(";")
         image_folders = image_folder.split(";")
@@ -375,8 +382,26 @@ class dataset_pixel_depth_eval(Dataset):
             "max_depth": max_depth,
         }
 
+        # ===== Decide effective evaluation mode for this sample =====
+        # 'auto'  : driven by jsonl fields (sparse takes priority when both available)
+        # 'sparse': force sparse-points mode; skip the sample if it has no `pixel_coords`/`depth`
+        # 'dense' : force full depth-map mode; skip the sample if it has no `depth_path`
+        has_sparse = ("pixel_coords" in record) and ("depth" in record)
+        has_dense = bool(record.get("depth_path"))
+
+        if self.eval_mode == "sparse":
+            if not has_sparse:
+                return None
+            use_sparse = True
+        elif self.eval_mode == "dense":
+            if not has_dense:
+                return None
+            use_sparse = False
+        else:  # auto
+            use_sparse = has_sparse
+
         # ===== New format: pixel_coords + depth (sparse-points GT) =====
-        if "pixel_coords" in record and "depth" in record:
+        if use_sparse:
             orig_coords = np.array(record["pixel_coords"], dtype=np.float64)  # (N, 2), each row [x, y]
             gt_depths_jsonl = np.array(record["depth"], dtype=np.float32)     # (N,) values in the original jsonl resolution
 
