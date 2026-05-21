@@ -157,6 +157,10 @@ We are grateful for the open-source contributions of other projects:
 - [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL)
 
 
+## 📑 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
 ## 🖊️ Citation
 
 ```BibTeX
