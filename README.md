@@ -27,7 +27,11 @@
     </a>
 </div>
 
-
+<div align="center">
+    <img src="assets/countbench.svg" alt="CountBench" height="20">
+    <img src="assets/pope.svg" alt="POPE" height="20">
+    <img src="assets/scienceqa.svg" alt="ScienceQA" height="20">
+</div>
 
 
 <p align="center">
