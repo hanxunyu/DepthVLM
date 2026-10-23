@@ -88,8 +88,8 @@ echo "[mem] PYTORCH_CUDA_ALLOC_CONF=$PYTORCH_CUDA_ALLOC_CONF  CUBLAS_WORKSPACE_C
 ############################
 # Training hyperparameters
 ############################
-GLOBAL_BATCH_SIZE=2560      # desired global batch size
-LOCAL_BATCH_SIZE=32        # batch size per GPU
+GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-2560}      # desired global batch size
+LOCAL_BATCH_SIZE=${LOCAL_BATCH_SIZE:-32}        # batch size per GPU
 
 TOTAL_GPUS=$(( NNODES * NPROC_PER_NODE ))
 GLOBAL_STEP_BATCH=$(( TOTAL_GPUS * LOCAL_BATCH_SIZE ))
@@ -110,18 +110,18 @@ echo "[train] GRAD_ACC_STEPS=$GRAD_ACC_STEPS (to reach >= $GLOBAL_BATCH_SIZE)"
 ############################
 # Model & output
 ############################
-model_path=Qwen/Qwen3-VL-4B-Instruct
+model_path=${BASE_MODEL:-Qwen/Qwen3-VL-4B-Instruct}
 # In multi-node runs, ensure all nodes use the same TIMESTAMP:
 TIMESTAMP=${RUN_TIMESTAMP:-$(date +"%Y%m%d_%H%M%S")}
-output_path=outputs/DepthVLM-4b-stage1_${TIMESTAMP}/
+output_path=${OUTPUT_PATH:-outputs/DepthVLM-4b-stage1_${TIMESTAMP}/}
 echo "[output] ${output_path}"
 
 ############################
 # Data configuration
 ############################
-source configs/train_datasets.conf
+source "${TRAIN_DATA_CONF:-configs/train_datasets.conf}"
 
-TRAIN_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP HM3D TASKONOMY MATTERPORT3D"
+TRAIN_DATASETS=${TRAIN_DATASETS:-"ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP HM3D TASKONOMY MATTERPORT3D"}
 
 echo "Building train args for: ${TRAIN_DATASETS}"
 build_train_args
@@ -141,7 +141,7 @@ python -m torch.distributed.run \
 --dataset_name "$DATASET_NAME" \
 --depth_root "$DEPTH_ROOT" \
 --freeze_mllm \
---max_seq_length 4096 \
+--max_length 4096 \
 --learning_rate 3.5e-4 \
 --lr_scheduler_type cosine \
 --per_device_train_batch_size $LOCAL_BATCH_SIZE \
@@ -152,7 +152,7 @@ python -m torch.distributed.run \
 --logging_steps 15 \
 --report_to tensorboard \
 --gradient_checkpointing true \
---attn_implementation "flash_attention_2" \
+--attn_implementation "${DEPTHVLM_ATTN_IMPL:-flash_attention_2}" \
 --num_train_epochs 1 \
 --log_level info \
 --logging_strategy steps \
@@ -161,7 +161,8 @@ python -m torch.distributed.run \
 --save_strategy steps \
 --save_total_limit 3 \
 --eval_strategy no \
---torch_dtype bfloat16 \
+--dtype bfloat16 \
 --seed 42 \
 --fsdp "full_shard auto_wrap" \
---fsdp_config '{"transformer_layer_cls_to_wrap": "Qwen3VLTextDecoderLayer", "limit_all_gathers": true}'
+--fsdp_config '{"transformer_layer_cls_to_wrap": "Qwen3VLTextDecoderLayer", "limit_all_gathers": true}' \
+${EXTRA_TRAIN_ARGS:-}

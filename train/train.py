@@ -439,9 +439,9 @@ def main(script_args, training_args, model_args):
     # ###################
     logger.info("*** Initializing model kwargs ***")
     torch_dtype = (
-        model_args.torch_dtype
-        if model_args.torch_dtype in ["auto", None]
-        else getattr(torch, model_args.torch_dtype)
+        model_args.dtype
+        if model_args.dtype in ["auto", None]
+        else getattr(torch, model_args.dtype)
     )
     quantization_config = get_quantization_config(model_args)
 
@@ -449,7 +449,7 @@ def main(script_args, training_args, model_args):
         revision=model_args.model_revision,
         trust_remote_code=model_args.trust_remote_code,
         attn_implementation=model_args.attn_implementation,
-        torch_dtype=torch_dtype,
+        dtype=torch_dtype,
         use_cache=False if training_args.gradient_checkpointing else True,
         device_map=(
             get_kbit_device_map() if quantization_config is not None else None
@@ -584,7 +584,7 @@ def main(script_args, training_args, model_args):
         model=model,
         args=training_args,
         train_dataset=dataset,
-        processing_class=processor.tokenizer,
+        processing_class=processor,  # full processor so trl treats the model as a VLM
         data_collator=collate_fn,
         peft_config=get_peft_config(model_args),
         callbacks=callbacks,

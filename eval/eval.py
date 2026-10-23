@@ -55,7 +55,7 @@ def main(args):
     model = Qwen3VLForConditionalGeneration.from_pretrained(
         model_path,
         torch_dtype=torch.bfloat16,
-        attn_implementation="flash_attention_2",
+        attn_implementation=os.environ.get("DEPTHVLM_ATTN_IMPL", "flash_attention_2"),
         device_map="auto",
     )
     model.eval()
@@ -209,6 +209,11 @@ def main(args):
 
                 # ===== Sparse-points mode: pixel_coords + gt_depths =====
                 if pixel_coords is not None and gt_depths is not None:
+                    # The processor snaps the image to multiples of 32, so the predicted map can
+                    # differ from the canonical(+crop) image that pixel_coords refer to; resize first.
+                    img_w, img_h = msg["image"].size
+                    if pred_map.shape != (img_h, img_w):
+                        pred_map = cv2.resize(pred_map, (img_w, img_h), interpolation=cv2.INTER_LINEAR)
                     pred_h, pred_w = pred_map.shape
                     gt_depths_jsonl_all = msg.get("gt_depths_jsonl", None)  # (N,) all original points
                     pred_at_points = []

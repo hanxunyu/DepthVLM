@@ -1,1 +1,3 @@
 .DS_Store
+smoke_logs/
+__pycache__/

@@ -310,7 +310,7 @@ def main():
     model = Qwen3VLForConditionalGeneration.from_pretrained(
         args.model_path,
         torch_dtype=torch.bfloat16,
-        attn_implementation="flash_attention_2",
+        attn_implementation=os.environ.get("DEPTHVLM_ATTN_IMPL", "flash_attention_2"),
         device_map="auto",
     )
     model.eval()

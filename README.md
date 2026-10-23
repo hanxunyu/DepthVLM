@@ -82,6 +82,12 @@ conda activate depthvlm
 pip install -r requirements.txt
 pip install flash-attn==2.6.3 --no-build-isolation
 ```
+The model code requires `transformers==5.6.2` (pinned in `requirements.txt`). If flash-attn cannot be installed, set `DEPTHVLM_ATTN_IMPL=sdpa` to fall back to PyTorch SDPA attention.
+
+Run a quick end-to-end check (environment, depth heads, demo, sparse/dense eval on `examples/`; add `--train` for a tiny two-stage training run):
+```
+bash scripts/smoke_test.sh --gpus 0
+```
 ## 📊 Data Preparation
 - Due to licensing restrictions, we are unable to directly release the curated data. Instead, we provide the full data curation pipeline for reproducibility. Please refer to [data_process.md](./data_process/data_process.md) for detailed dataset-specific preparation instructions.
 - We provide visualization examples from ScanNet++ in the [examples](./examples) folder.
@@ -113,9 +119,13 @@ Stage1: depth head-only training
 # stage-1 
 bash train/train-stage1.sh
 ```
-Stage2: end-to-end fine-tuning
+Stage2: end-to-end fine-tuning (set `STAGE1_CKPT` to the stage-1 output directory)
 ```
-bash train/train-stage2.sh
+STAGE1_CKPT=outputs/DepthVLM-4b-stage1_<timestamp>/ bash train/train-stage2.sh
+```
+FSDP mixed-precision training saves fp32 master weights (~19 GB for stage 2). Export the final checkpoint to bf16 (~9 GB) for inference:
+```
+python scripts/export_bf16.py outputs/DepthVLM-4b-stage2_<timestamp>/ outputs/DepthVLM-4b-bf16/
 ```
 [DepthVLM-4B](https://huggingface.co/JonnyYu828/DepthVLM-4B) is trained for two days on 80 NVIDIA H20 GPUs (96GB).
 

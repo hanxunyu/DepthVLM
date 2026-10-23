@@ -9,26 +9,26 @@ export PYTHONPATH="${PROJECT_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
 
 # ========== Configuration ==========
 
-model_path=JonnyYu828/DepthVLM-4B
+model_path=${MODEL_PATH:-JonnyYu828/DepthVLM-4B}
 
 # Load dataset path configuration
-source configs/eval_datasets.conf
+source "${EVAL_DATA_CONF:-configs/eval_datasets.conf}"
 
 # ===== Datasets to evaluate (space-separated) =====
 # Names must match the variable prefix (uppercase) in eval_datasets.conf
-EVAL_DATASETS="ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP ETH3D SUNRGBD IBIMS1 NYUV2"
+EVAL_DATASETS=${EVAL_DATASETS:-"ARGOVERSE2 WAYMO DDAD NUSCENES SCANNETPP ETH3D SUNRGBD IBIMS1 NYUV2"}
 
 # GENERATE_TEXT=false # Stage 1 -> false
-GENERATE_TEXT=true # Stage 2 -> true
+GENERATE_TEXT=${GENERATE_TEXT:-true} # Stage 2 -> true
 
 # ===== Evaluation mode =====
 #   sparse : force sparse-points eval (pixel_coords + depth)
 #   dense  : force full depth-map eval (depth_path)
-EVAL_MODE="sparse"
+EVAL_MODE=${EVAL_MODE:-"sparse"}
 
 SAVE_DEPTH_MAPS=false
 max_save_depth_maps=20
-BSZ=24
+BSZ=${BSZ:-24}
 
 # ===== Specify GPUs to use =====
 # Option 1: edit the variable below, e.g. GPUS="0,1,2,3" or GPUS="2,5,7"
